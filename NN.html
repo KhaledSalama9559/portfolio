@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>write the answer ✍️</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #246aac;
+      text-align: center;
+      direction: rtl;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      margin-top: 80px;
+    }
+    #riddle-box {
+      background-color: #fff;
+      padding: 20px;
+      margin: 20px auto;
+      width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #aaa;
+    }
+    #riddle {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    #answer {
+      font-weight: bold;
+      color: #4caf50;
+      display: none;
+      margin-top: 10px;
+    }
+    #feedback {
+      font-weight: bold;
+      margin-top: 10px;
+      display: none;
+    }
+    #timer {
+      font-size: 20px;
+      color: #d32f2f;
+      font-weight: bold;
+      margin: 10px;
+    }
+    input {
+      padding: 10px;
+      width: 80%;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px 5px;
+      border: none;
+      border-radius: 8px;
+      background-color: #8e24aa;
+      color: white;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>لعبة الألغاز ✨</h1>
+    <div id="riddle-box">
+      <p id="riddle">اضغط "ابدأ" لبدء اللعبة!</p>
+      <input type="text" id="userAnswer" placeholder="اكتب إجابتك هنا..." disabled />
+      <p id="timer">الوقت: --</p>
+      <p id="feedback"></p>
+      <p id="answer">الإجابة هتظهر هنا</p>
+      <button id="startBtn">ابدأ</button>
+      <button id="nextBtn" disabled>التالي</button>
+    </div>
+  </div>
+  <script>
+    const riddles = [
+      { question: "ما هو الشيء الذي يكون أخضر في الأرض، وأسود في السوق، وأحمر في البيت؟", answer: "الشاي" },
+      { question: "ما هو الشيء الذي إذا أكلته كله تستفيد، وإذا أكلت نصفه تموت؟", answer: "سمسم" },
+      { question: "ما هو الشيء الذي لديه أسنان ولا يعض؟", answer: "المشط" },
+      { question: "له عين ولا يرى، ما هو؟", answer: "الإبرة" },
+      { question: "ما هو الشيء الذي كلما أخذت منه يكبر؟", answer: "الحفرة" },
+      { question: "شيء يراك ولا تراه، ما هو؟", answer: "المرآة" },
+      { question: "ما هو الشيء الذي إذا تركته يطير وإذا أمسكت به يموت؟", answer: "النفس" },
+      { question: "أين يوجد البحر الذي لا ماء فيه؟", answer: "على الخريطة" },
+      { question: "ما هو الشيء الذي يولد مرة واحدة في العمر؟", answer: "العمر" },
+      { question: "ما هو الشيء الذي لا يمشي إلا بالضرب؟", answer: "المسمار" },
+      { question: "ما هو الشيء الذي لا يتكلم، إذا أكل صدق وإذا جاع كذب؟", answer: "الساعة" },
+{ question: "ما هو الشيء الذي كلما زاد نقص؟", answer: "العمر" },
+{ question: "ما هو الشيء الذي له وجه بلا لسان ويدل الناس على الزمان؟", answer: "الساعة" },
+{ question: "شيء إذا لمسته صرخ؟", answer: "الجرس" },
+{ question: "ما هو الشيء الذي يوجد في القرن مرة وفي الدقيقة مرتين ولا يوجد في الساعة؟", answer: "حرف القاف" },
+{ question: "له رأس ولا عين له، ما هو؟", answer: "الدبوس" },
+{ question: "ما هو الشيء الذي يقرصك ولا تراه؟", answer: "الجوع" },
+{ question: "يمشي بلا قدمين ويدخل الأذنين، ما هو؟", answer: "الصوت" },
+{ question: "ما هو الشيء الذي إذا وضعته في الثلاجة لا يبرد؟", answer: "الفلفل الحار" },
+{ question: "ما هو الشيء الذي لا يبتل حتى لو دخل الماء؟", answer: "الظل" },
+{ question: "ترى كل شيء وليس لها عيون، ما هي؟", answer: "المرآة" },
+{ question: "ما هو الشيء الذي يحملك وتحمله؟", answer: "الحذاء" },
+{ question: "له أوراق وما هو بنبات، له جلد وما هو بحيوان، وعنده علم وما هو بإنسان، ما هو؟", answer: "الكتاب" },
+{ question: "شيء إذا شرب مات وإذا أكل عاش؟", answer: "النار" },
+{ question: "بيت ليس فيه أبواب ولا نوافذ؟", answer: "البيت الشعري" },
+{ question: "ما هو الشيء الذي يكتب ولا يقرأ؟", answer: "القلم" },
+{ question: "ما هو الشيء الذي يسمع بلا أذن ويتكلم بلا لسان؟", answer: "التليفون" },
+{ question: "ما هو الشيء الذي إذا سقط على الأرض صاح، وإذا انكسر سكت؟", answer: "الزجاج" },
+{ question: "ما هو الشيء الذي كلما أخذت منه كبر؟", answer: "الحفرة" },
+{ question: "ما هو الشيء الذي تراه في الليل 3 مرات وفي النهار مرة؟", answer: "حرف اللام" },
+{ question: "له رقبة بلا رأس، ما هو؟", answer: "الزجاجة" },
+{ question: "ما هو الشيء الذي يحمل أكثر من 100 طن ولا يستطيع حمل مسمار؟", answer: "البحر" },
+{ question: "شيء كلما مشى فقد جزءًا من ذيله؟", answer: "الإبرة بالخيط" },
+{ question: "شيء يجري ولا يمشي وله فم ولا يتكلم؟", answer: "النهر" },
+{ question: "ما هو الباب الذي لا يمكن فتحه؟", answer: "الباب المفتوح" },
+{ question: "ما هو الشيء الذي ليس له بداية ولا نهاية؟", answer: "الدائرة" },
+{ question: "شيء إذا زاد نقص؟", answer: "الحفرة" },
+{ question: "يحتوي على ثقوب ومع ذلك يحتفظ بالماء، ما هو؟", answer: "الإسفنج" },
+{ question: "ما هو الشيء الذي إذا خرج لا يعود؟", answer: "الدخان" },
+{ question: "من هو الذي يرى عدوه وصديقه بعين واحدة؟", answer: "الأعور" },
+{ question: "من هو الإنسان الذي قتل ربع سكان الأرض؟", answer: "قابيل" },
+{ question: "له أسنان ولا يعض، ما هو؟", answer: "المشط" },
+{ question: "إذا كانت 2 + 2 = 4، فكم تساوي 2 × 2؟", answer: "4" },
+{ question: "كم شهر في السنة يحتوي على 28 يوم؟", answer: "كل الشهور" },
+{ question: "أين يقع البحر الذي لا ماء فيه؟", answer: "على الخريطة" },
+{ question: "شيء يكسو الناس وهو عارٍ بلا ملابس؟", answer: "الإبرة" },
+{ question: "ما هو الشيء الذي لا يمشي إلا بالضرب؟", answer: "المسمار" },
+{ question: "ترى ولا تُرى، ما هي؟", answer: "العين" },
+{ question: "شيء يكسر ولا يمسك؟", answer: "الوعد" },
+{ question: "ما هو الشيء الذي إذا استخدمته مرة واحدة لا يمكنك استخدامه مرة أخرى؟", answer: "الرصاصة" },
+{ question: "ما هو الشيء الذي كلما زاد نقص؟", answer: "الشمعة" },
+{ question: "ما هو الشيء الذي ليس له وزن ومع ذلك يملأ الغرفة؟", answer: "الضوء" },
+{ question: "إذا وضعتني في الماء مت فإنني لا أبل، من أكون؟", answer: "الملح" },
+{ question: "شيء له يد ولا يستطيع التصفيق؟", answer: "الساعة" },
+{ question: "شيء له رجل ولا يمشي؟", answer: "الكرسي" },
+{ question: "ما هو الشيء الذي يكون في الشتاء خمس مرات وفي الصيف ثلاث مرات؟", answer: "النقاط" },
+{ question: "شيء إذا أضفت له ماء كبر، وإذا جف صغر، ما هو؟", answer: "الأسفنجة" },
+{ question: "ما هو الشيء الذي إذا لمسته يتكسر؟", answer: "الصمت" },
+{ question: "شيء إن تركته ازداد وإن أخذت منه نقص، ما هو؟", answer: "الثقب" },
+    ];
+
+    while (riddles.length < 100) {
+      riddles.push(riddles[riddles.length % 10]);
+    }
+
+    let currentIndex = -1;
+    let countdown;
+    const timePerRiddle = 15;
+
+    const riddleEl = document.getElementById("riddle");
+    const answerEl = document.getElementById("answer");
+    const feedbackEl = document.getElementById("feedback");
+    const timerEl = document.getElementById("timer");
+    const userAnswer = document.getElementById("userAnswer");
+    const startBtn = document.getElementById("startBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    function showRiddle() {
+      currentIndex++;
+      if (currentIndex >= riddles.length) {
+        riddleEl.textContent = "خلصت الألغاز! ✨";
+        answerEl.style.display = "none";
+        feedbackEl.style.display = "none";
+        timerEl.textContent = "";
+        userAnswer.disabled = true;
+        startBtn.disabled = true;
+        nextBtn.disabled = true;
+        return;
+      }
+
+      const riddle = riddles[currentIndex];
+      riddleEl.textContent = riddle.question;
+      answerEl.style.display = "none";
+      feedbackEl.style.display = "none";
+      userAnswer.value = "";
+      userAnswer.disabled = false;
+
+      let timeLeft = timePerRiddle;
+      timerEl.textContent = `الوقت: ${timeLeft}`;
+      startBtn.disabled = true;
+      nextBtn.disabled = true;
+
+      countdown = setInterval(() => {
+        timeLeft--;
+        timerEl.textContent = `الوقت: ${timeLeft}`;
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          userAnswer.disabled = true;
+          answerEl.textContent = `الإجابة الصحيحة: ${riddle.answer}`;
+          answerEl.style.display = "block";
+
+          const userAns = userAnswer.value.trim();
+          if (userAns === "") {
+            feedbackEl.textContent = "⏱️ لم تكتب أي إجابة.";
+            feedbackEl.style.color = "gray";
+          } else if (userAns === riddle.answer) {
+            feedbackEl.textContent = "✅ إجابة صحيحة!";
+            feedbackEl.style.color = "green";
+          } else {
+            feedbackEl.textContent = "❌ إجابة خاطئة!";
+            feedbackEl.style.color = "red";
+          }
+          feedbackEl.style.display = "block";
+          nextBtn.disabled = false;
+        }
+      }, 1000);
+    }
+
+    startBtn.addEventListener("click", () => {
+      currentIndex = -1;
+      showRiddle();
+    });
+
+    nextBtn.addEventListener("click", () => {
+      clearInterval(countdown);
+      showRiddle();
+    });
+  </script>
+</body>
+</html>

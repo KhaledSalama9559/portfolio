@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>guess the number 🎲</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #184d75;
+      text-align: center;
+      direction: rtl;
+      padding-top: 60px;
+    }
+    #game-box {
+      background: white;
+      width: 400px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #aaa;
+    }
+    input {
+      font-size: 18px;
+      padding: 8px;
+      width: 100px;
+      margin: 10px 0;
+    }
+    button {
+      font-size: 16px;
+      padding: 10px 20px;
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #message {
+      margin-top: 20px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    #attempts {
+      margin-top: 10px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-box">
+    <h1>🎲 خمن الرقم من 1 إلى 100</h1>
+    <input type="number" id="guessInput" placeholder="اكتب رقم" />
+    <br>
+    <button onclick="checkGuess()">check</button>
+    <p id="message"></p>
+    <p id="attempts"></p>
+  </div>
+
+  <script>
+    const secretNumber = Math.floor(Math.random() * 100) + 1;
+    let attemptsLeft = 15;
+
+    function checkGuess() {
+      const guess = Number(document.getElementById("guessInput").value);
+      const messageEl = document.getElementById("message");
+      const attemptsEl = document.getElementById("attempts");
+
+      if (!guess || guess < 1 || guess > 100) {
+        messageEl.textContent = "❌ من فضلك أدخل رقم من 1 إلى 100";
+        return;
+      }
+
+      attemptsLeft--;
+
+      if (guess === secretNumber) {
+        messageEl.textContent = "🎉 مبروك! الرقم صحيح!";
+        messageEl.style.color = "green";
+        attemptsEl.textContent = "";
+        document.querySelector("button").disabled = true;
+      } else if (attemptsLeft === 0) {
+        messageEl.textContent = `😢 خسرت! الرقم كان: ${secretNumber}`;
+        messageEl.style.color = "red";
+        attemptsEl.textContent = "";
+        document.querySelector("button").disabled = true;
+      } else {
+        messageEl.textContent = guess < secretNumber ? "📈 أعلى!" : "📉 أقل!";
+        messageEl.style.color = "orange";
+        attemptsEl.textContent = `المحاولات المتبقية: ${attemptsLeft}`;
+      }
+    }
+  </script>
+</body>
+</html>

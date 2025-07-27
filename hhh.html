@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elzoz </title>
+  <style>
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0d0d0d;
+      color: #ffffff;
+      line-height: 1.6;
+    }
+
+    
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 20px 60px;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+      color: #00ffff;
+      text-shadow: 0 0 8px #00ffff;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 30px;
+      font-size: 18px;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #00ffff;
+      transition: width 0.3s;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+      background: linear-gradient(135deg, #001f3f, #000000);
+    }
+
+    .hero h1 {
+      font-size: 60px;
+      color: #00ffff;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease;
+    }
+
+    .hero p {
+      font-size: 22px;
+      max-width: 800px;
+      color: #cccccc;
+      animation: fadeIn 3s ease;
+    }
+
+    
+    .about {
+      min-height: 100vh;
+      padding: 100px 60px 60px;
+      background: #111;
+    }
+
+    .about h2 {
+      font-size: 40px;
+      color: #00ffff;
+      margin-bottom: 30px;
+    }
+
+    .about p {
+      font-size: 18px;
+      max-width: 700px;
+      color: #ccc;
+    }
+
+    
+    footer {
+      background: #000;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    
+    @keyframes fadeIn {
+      0% {opacity: 0; transform: translateY(30px);}
+      100% {opacity: 1; transform: translateY(0);}
+    }
+
+    
+    @media (max-width: 768px) {
+      header {
+        padding: 15px 30px;
+      }
+
+      .hero h1 {
+        font-size: 40px;
+      }
+
+      .hero p {
+        font-size: 18px;
+      }
+
+      .about {
+        padding: 80px 30px;
+      }
+    }
+    .photo{
+        float: left;
+        margin-right: 20px;
+        border-radius: 50%;
+        width: 200px;
+        height: 200px;
+
+    }
+    
+  </style>
+</head>
+<body>
+
+  
+  <header>
+    <div class="logo">Ahmed Abdel Aziz</div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="AN2.html">projects</a>
+    </nav>
+  </header>
+
+  
+  <section class="hero" id="home">
+    <h1>Ahmed Abdel Aziz</h1>
+    <p>a specialist in Front End with a one-year training</p>
+  </section>
+
+  
+  <section class="about" id="about">
+    <h2>about me</h2>
+    <p>We are a creative team of developers and designers who believe in exceeding limits. We transform your thoughts into effective digital platforms that embody your brand. Whether it's a website or a brand identity, our team brings you excellence every time.</p>
+  <img src="IMG_20250724_003436.jpg" alt="photo" width="200" height="200" class="photo">
+  <br>
+ <a href="mailto:medoabdelaziz979@gmail.com" class="email">📧 email</a>
+<br>
+  <a href="https://wa.me/201119675508" target="_blank" class="whatsapp">💬 whatsapp</a>
+<br>
+  <a href="https://www.instagram.com/ahmed_zizo2009?igsh=dTFxMGF1bTFjNHB5" target="_blank" class="instagram">📸 instagram</a>
+
+</section>
+
+  
+  <footer>
+    &copy; 2025 Ahmedabdelaziz. All rights reserved.
+  </footer>
+
+</body>
+</html>
